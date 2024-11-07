@@ -30,12 +30,4 @@ pipeline {
             }
         }
     }
-
-    post {
-        always {
-            script {
-                sh 'az logout'
-            }
-        }
-    }
 }
