@@ -8,26 +8,11 @@ pipeline {
         AZURE_SUBSCRIPTION_ID = credentials('284ea37b-bcc5-43f3-840c-ea3e3dca9169')
     }
 
-    stages {
-        stage('Login to Azure') {
-            steps {
-                script {
-                    sh '''
-                        az cloud set --name AzureUSGovernment
-                        az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID
-                    '''
+        stages {
+            stage(name: 'Checkout') {
+                steps {
+                    git branch: 'main', url: 'https://github.com/your-repo/your-arm-template.json' 
+                    }
                 }
-            }
         }
-
-        stage('Create Resource Group') {
-            steps {
-                script {
-                    sh '''
-                        az group create --name jPipeline1 --location usgovvirginia
-                    '''
-                }
-            }
-        }
-    }
 }
