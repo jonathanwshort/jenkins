@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://your-repo-url.git'
+                git 'https://github.com/jonathanwshort/jenkins.git'
             }
         }
         stage('Login to Azure') {
@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Deploy Bicep') {
             steps {
-                sh 'az deployment group create --resource-group your-resource-group --template-file your-template.bicep'
+                sh 'az deployment group create --resource-group jenkinsRG --template-file main.bicep'
             }
         }
     }
