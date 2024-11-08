@@ -1,18 +1,27 @@
 pipeline {
     agent any
-
     environment {
-        AZURE_CLIENT_ID = credentials('f4732144-023b-4471-b433-fe6db5a0e6dd')
-        AZURE_CLIENT_SECRET = credentials('0DY9eMdSL_..m8bW-~dNFYQzplpCdWW5P1')
-        AZURE_TENANT_ID = credentials('03f141f3-496d-4319-bbea-a3e9286cab10')
-        AZURE_SUBSCRIPTION_ID = credentials('284ea37b-bcc5-43f3-840c-ea3e3dca9169')
+        AZURE_CREDENTIALS_ID = 'your-azure-credentials-id'
+        AZURE_SUBSCRIPTION_ID = 'your-subscription-id'
     }
-
-        stages {
-            stage(name: 'Checkout') {
-                steps {
-                    git branch: 'main', url: 'https://github.com/jonathanwshort/jenkins.git' 
-                    }
-                }
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://your-repo-url.git'
+            }
         }
+        stage('Login to Azure') {
+            steps {
+                withCredentials([azureServicePrincipal(credentialsId: "${AZURE_CREDENTIALS_ID}")]) {
+                    sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID'
+                    sh 'az account set --subscription $AZURE_SUBSCRIPTION_ID'
+                }
+            }
+        }
+        stage('Deploy Bicep') {
+            steps {
+                sh 'az deployment group create --resource-group your-resource-group --template-file your-template.bicep'
+            }
+        }
+    }
 }
