@@ -11,7 +11,7 @@ pipeline {
         stages {
             stage(name: 'Checkout') {
                 steps {
-                    git branch: 'main', url: 'https://github.com/your-repo/your-arm-template.json' 
+                    git branch: 'main', url: 'https://github.com/jonathanwshort/jenkins.git' 
                     }
                 }
         }
