@@ -3,8 +3,6 @@ pipeline {
     environment {
         AZURE_CLIENT_ID = credentials('azure-client-id')
         AZURE_CLIENT_SECRET = credentials('azure-client-secret')
-        AZURE_TENANT_ID = credentials('azure-tenant-id')
-        AZURE_SUBSCRIPTION_ID = credentials('azure-subscription-id')
     }
     stages {
         stage('Checkout') {
@@ -15,7 +13,7 @@ pipeline {
         stage('Login to Azure') {
             steps {
                 withCredentials([azureServicePrincipal(credentialsId: "${AZURE_CREDENTIALS_ID}")]) {
-                    sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID'
+                    sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET'
                     sh 'az account set --subscription $AZURE_SUBSCRIPTION_ID'
                 }
             }
