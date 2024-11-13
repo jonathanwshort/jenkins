@@ -6,12 +6,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/jonathanwshort/jenkins.git'
-            }
-        }
-
         stage('Login to Azure') {
             steps {
                 bat '''
