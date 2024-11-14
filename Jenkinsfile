@@ -40,7 +40,7 @@ environment {
             steps {
                 echo 'Deploying Resource Group using Bicep...'
                 bat '''
-                    az deployment group create --resource-group jenkinsRG --template-file main.bicep
+                    az deployment group create --resource-group JenkinsTest --template-file main.bicep
                     IF %ERRORLEVEL% NEQ 0 (
                         exit /b 1
                     )
