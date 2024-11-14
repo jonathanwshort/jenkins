@@ -1,12 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        AZURE_CLIENT_ID = credentials('azure-client-id')
-        AZURE_CLIENT_SECRET = credentials('azure-client-secret')
-
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -21,7 +15,6 @@ pipeline {
             steps {
                 echo 'Setting Azure Environment'
                 bat 'az cloud set --name AzureUSGovernment'
-                }
             }
         }
     }
