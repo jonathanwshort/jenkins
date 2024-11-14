@@ -35,18 +35,6 @@ environment {
                     '''
             }
         }
-
-        stage('Deploy RG Bicep') {
-            steps {
-                echo 'Deploying Resource Group using Bicep...'
-                bat '''
-                    az deployment group create --resource-group jenkinsRG --template-file main.bicep
-                    IF %ERRORLEVEL% NEQ 0 (
-                        exit /b 1
-                    )
-                '''
-            }
-        }
     }
 
     post {
