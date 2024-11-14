@@ -21,6 +21,7 @@ pipeline {
             steps {
                 echo 'Setting Azure Environment'
                 bat 'az cloud set --name AzureUSGovernment'
+                }
             }
         }
     }
