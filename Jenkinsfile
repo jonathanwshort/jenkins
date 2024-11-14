@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+environment {
+        MY_CRED_AZURE_CLIENT_ID = 'f4732144-023b-4471-b433-fe6db5a0e6dd'
+        MY_CRED_AZURE_CLIENT_SECRET = '0DY9eMdSL_..m8bW-~dNFYQzplpCdWW5P1'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -11,11 +16,23 @@ pipeline {
             }
         }
 
-        stage('Login to Azure') {
+        stage('Set Azure Environment') {
             steps {
                 echo 'Setting Azure Environment'
                 bat 'az cloud set --name AzureUSGovernment'
-                
+            }
+        }
+            
+        stage('Login with Service Principal Credentials') {
+            steps {
+                echo "Logging into AzureUSGovernment"
+                    bat '''
+                    az cloud set --name AzureUSGovernment
+                    az login --service-principal -u %MY_CRED_AZURE_CLIENT_ID% -p %MY_CRED_AZURE_CLIENT_SECRET%
+                    IF %ERRORLEVEL% NEQ 0 (
+                        exit /b 1
+                    )
+                    '''
             }
         }
     }
@@ -23,6 +40,6 @@ pipeline {
     post {
         always {
             echo 'I will always say hello'
-        }
+            }
     }
 }
